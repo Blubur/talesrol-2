@@ -1,0 +1,859 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>El Refugio · Cenizas Blancas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:       #0e0c0a;
+  --bg2:      #161210;
+  --bg3:      #1e1a15;
+  --bg4:      #262018;
+  --gold:     #c8a96a;
+  --gold-dim: #7a6438;
+  --gold-pale:#eddcb0;
+  --ash:      #e0dbd2;
+  --ash-dim:  #968e80;
+  --ash-dark: #5a5248;
+  --red:      #8c2e2e;
+  --red-dim:  #5a1e1e;
+  --red-light:#c05050;
+  --teal:     #4a9e90;
+  --teal-dim: #2a5e54;
+  --amber:    #c87828;
+  --border:   rgba(200,169,106,0.18);
+  --border2:  rgba(200,169,106,0.38);
+}
+
+html { font-size: 13px; }
+
+body {
+  background: var(--bg);
+  color: var(--ash);
+  font-family: 'EB Garamond', Georgia, serif;
+  min-height: 100vh;
+  padding: 28px 32px;
+}
+
+/* HEADER */
+.header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border2);
+  margin-bottom: 24px;
+}
+
+.h-left {}
+.campaign-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 4px;
+}
+.campaign-title {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: var(--gold-pale);
+  letter-spacing: 3px;
+}
+.campaign-sub {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold-dim);
+  letter-spacing: 2px;
+  margin-top: 2px;
+}
+
+.h-right {
+  text-align: right;
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  line-height: 2;
+}
+
+.session-field {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+.session-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border2);
+  color: var(--ash);
+  font-family: 'Cinzel', serif;
+  font-size: 16px;
+  width: 120px;
+  text-align: right;
+  outline: none;
+  padding: 2px 4px;
+}
+.session-input::placeholder { color: var(--ash-dark); }
+
+/* LAYOUT */
+.main-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+  margin-bottom: 20px;
+}
+
+.full-row {
+  margin-bottom: 20px;
+}
+
+/* PANEL */
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 18px;
+}
+
+.panel-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 16px;
+  padding-bottom: 10px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.panel-title::before {
+  content: '';
+  width: 5px; height: 5px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ATRIBUTOS DEL REFUGIO */
+.atributos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.atributo-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 14px;
+}
+
+.atrib-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.atrib-name {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  color: var(--gold-pale);
+}
+
+.atrib-value {
+  font-family: 'Cinzel', serif;
+  font-size: 26px;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.atrib-dots {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.adot {
+  width: 20px; height: 20px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+}
+.adot.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 8px rgba(200,169,106,0.25); }
+.adot:hover:not(.filled) { border-color: var(--gold); }
+
+.atrib-desc {
+  font-size: 12px;
+  color: var(--ash-dim);
+  line-height: 1.6;
+  border-left: 2px solid var(--border);
+  padding-left: 8px;
+}
+
+.atrib-efecto {
+  margin-top: 8px;
+  padding: 6px 8px;
+  background: var(--bg4);
+  font-size: 11px;
+  color: var(--ash-dim);
+  font-style: italic;
+  line-height: 1.5;
+}
+
+.atrib-efecto strong {
+  color: var(--gold);
+  font-style: normal;
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+/* RELOJES DE PRESIÓN */
+.relojes-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 16px;
+}
+
+.reloj-block {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.reloj-title {
+  font-family: 'Cinzel', serif;
+  font-size: 13px;
+  color: var(--gold-pale);
+  text-align: center;
+  letter-spacing: 1px;
+}
+
+.reloj-sub {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash-dark);
+  text-align: center;
+  margin-top: -6px;
+}
+
+/* SVG CLOCK */
+.clock-svg {
+  cursor: pointer;
+  user-select: none;
+}
+
+.clock-svg .seg {
+  transition: fill 0.15s;
+  cursor: pointer;
+}
+.clock-svg .seg:hover { opacity: 0.8; }
+
+.reloj-nota {
+  font-size: 11px;
+  color: var(--ash-dark);
+  text-align: center;
+  line-height: 1.5;
+  font-style: italic;
+  padding: 0 4px;
+}
+
+.reloj-nota.sospecha { color: rgba(192,80,80,0.7); }
+.reloj-nota.operacion { color: rgba(200,120,40,0.7); }
+.reloj-nota.refugio { color: rgba(74,158,144,0.7); }
+
+/* MIEMBROS */
+.miembros-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 10px;
+}
+
+.miembro-card {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 10px 8px;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+}
+
+.miembro-avatar {
+  width: 48px; height: 48px;
+  background: var(--bg4);
+  border: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  overflow: hidden;
+  position: relative;
+  flex-shrink: 0;
+}
+.miembro-avatar img { width: 100%; height: 100%; object-fit: cover; display: none; }
+.miembro-avatar img.loaded { display: block; }
+.miembro-avatar svg { opacity: 0.3; }
+
+.miembro-nombre {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 12px;
+  text-align: center;
+  width: 100%;
+  outline: none;
+  padding: 2px 0;
+}
+.miembro-nombre::placeholder { color: var(--ash-dark); font-style: italic; }
+
+.miembro-rol {
+  background: none;
+  border: none;
+  color: var(--gold-dim);
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  text-align: center;
+  width: 100%;
+  outline: none;
+}
+.miembro-rol::placeholder { color: var(--ash-dark); }
+
+.miembro-estado {
+  display: flex;
+  gap: 3px;
+  justify-content: center;
+}
+.medot {
+  width: 6px; height: 6px;
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.medot { border: 1px solid var(--ash-dark); }
+.medot.e.filled { background: var(--teal); border-color: var(--teal); }
+.medot.d.filled { background: var(--red); border-color: var(--red); }
+
+/* NOTAS GRUPALES */
+.notas-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 16px;
+}
+
+.nota-block { display: flex; flex-direction: column; gap: 6px; }
+
+.nota-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  border-bottom: 1px solid var(--border);
+  padding-bottom: 6px;
+}
+
+.nota-area {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 10px;
+  width: 100%;
+  resize: vertical;
+  min-height: 100px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.nota-area:focus { border-color: var(--gold-dim); }
+.nota-area::placeholder { color: var(--ash-dark); font-style: italic; }
+
+/* CONSECUENCIAS PARCIALES REFERENCIA */
+.consec-ref {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.consec-card {
+  padding: 10px 12px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+
+.consec-tipo {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  margin-bottom: 5px;
+}
+.consec-rango { font-size: 10px; color: var(--ash-dark); font-family: 'Raleway', sans-serif; letter-spacing: 1px; display: block; margin-bottom: 4px; }
+.consec-desc { font-size: 11px; color: var(--ash-dim); line-height: 1.5; }
+.exito .consec-tipo { color: var(--teal); }
+.parcial .consec-tipo { color: var(--amber); }
+.info .consec-tipo { color: var(--gold-dim); }
+.fallo .consec-tipo { color: var(--red-light); }
+
+/* DRAMA GRUPAL */
+.drama-row {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin-top: 6px;
+}
+.drama-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+.drama-dots { display: flex; gap: 8px; }
+.ddot {
+  width: 16px; height: 16px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ddot.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(200,169,106,0.4); }
+.drama-nota { font-size: 11px; color: var(--ash-dark); font-style: italic; }
+
+/* MEJORAS */
+.mejoras-list { display: flex; flex-direction: column; gap: 6px; }
+.mejora-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+.mejora-check {
+  width: 12px; height: 12px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: background 0.15s;
+}
+.mejora-check.done { background: var(--gold-dim); }
+.mejora-texto { font-size: 12px; color: var(--ash-dim); flex: 1; }
+.mejora-coste {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  white-space: nowrap;
+}
+
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg4); }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="h-left">
+    <div class="campaign-label">Cenizas Blancas · El Doble Agente · Hoja grupal</div>
+    <div class="campaign-title">El Refugio</div>
+    <div class="campaign-sub">Recurso colectivo · Adaptación Spire</div>
+  </div>
+  <div class="h-right">
+    <div>Sesión <input class="session-input" type="text" placeholder="—"></div>
+    <div style="margin-top:4px; color:var(--ash-dark);">✦ ✦ ✦</div>
+  </div>
+</div>
+
+<!-- MIEMBROS DEL GRUPO -->
+<div class="full-row">
+  <div class="panel">
+    <div class="panel-title">El equipo</div>
+    <div class="miembros-grid" id="miembrosGrid">
+      <!-- se generan por JS -->
+    </div>
+  </div>
+</div>
+
+<!-- RELOJES DE PRESIÓN -->
+<div class="full-row">
+  <div class="panel">
+    <div class="panel-title">Relojes de presión</div>
+    <div class="relojes-grid">
+      <div class="reloj-block">
+        <div class="reloj-title">Sospecha</div>
+        <div class="reloj-sub">La Aguja</div>
+        <svg class="clock-svg" width="120" height="120" viewBox="0 0 120 120" id="clockSospecha">
+          <circle cx="60" cy="60" r="55" fill="var(--bg4)" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+        <div class="reloj-nota sospecha">En 8: cobertura cae. Extracción de emergencia.</div>
+      </div>
+      <div class="reloj-block">
+        <div class="reloj-title">Operación</div>
+        <div class="reloj-sub">Próxima captura</div>
+        <svg class="clock-svg" width="120" height="120" viewBox="0 0 120 120" id="clockOperacion">
+          <circle cx="60" cy="60" r="55" fill="var(--bg4)" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+        <div class="reloj-nota operacion">En 6: la Aguja actúa. Oculto para los jugadores.</div>
+      </div>
+      <div class="reloj-block">
+        <div class="reloj-title">Refugio</div>
+        <div class="reloj-sub">Seguridad de la base</div>
+        <svg class="clock-svg" width="120" height="120" viewBox="0 0 120 120" id="clockRefugio">
+          <circle cx="60" cy="60" r="55" fill="var(--bg4)" stroke="var(--border)" stroke-width="1"/>
+        </svg>
+        <div class="reloj-nota refugio">Empieza lleno (4). En 0: evacuación obligatoria.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ATRIBUTOS DEL REFUGIO -->
+<div class="main-grid">
+  <div class="panel">
+    <div class="panel-title">Atributos del Refugio</div>
+    <div class="atributos-grid">
+
+      <div class="atributo-block">
+        <div class="atrib-header">
+          <div class="atrib-name">Seguridad</div>
+          <div class="atrib-value" id="vSEG">1</div>
+        </div>
+        <div class="atrib-dots" data-attr="SEG" data-max="3" data-init="1"></div>
+        <div class="atrib-desc">Dificultad adicional para infiltrar el Refugio desde fuera.</div>
+        <div class="atrib-efecto">
+          <strong>1</strong> Sótano con cerradura básica ·
+          <strong>2</strong> Accesos alternos y vigilancia ·
+          <strong>3</strong> Laberinto de catacumbas con señales falsas
+        </div>
+      </div>
+
+      <div class="atributo-block">
+        <div class="atrib-header">
+          <div class="atrib-name">Discreción</div>
+          <div class="atrib-value" id="vDIS">1</div>
+        </div>
+        <div class="atrib-dots" data-attr="DIS" data-max="3" data-init="1"></div>
+        <div class="atrib-desc">Al perder un segmento del Reloj Refugio, tira 1d10. Si ≤ Discreción, el daño no es visible aún.</div>
+        <div class="atrib-efecto">
+          <strong>1</strong> Cualquier error los expone ·
+          <strong>2</strong> Margen de un error ·
+          <strong>3</strong> Dos o tres errores antes de quedar comprometidos
+        </div>
+      </div>
+
+      <div class="atributo-block">
+        <div class="atrib-header">
+          <div class="atrib-name">Alcance</div>
+          <div class="atrib-value" id="vALC">2</div>
+        </div>
+        <div class="atrib-dots" data-attr="ALC" data-max="3" data-init="2"></div>
+        <div class="atrib-desc">Velocidad con la que el Enlace puede mover información y coordinar intervenciones.</div>
+        <div class="atrib-efecto">
+          <strong>1</strong> Un mensaje tarda una sesión ·
+          <strong>2</strong> Coordinación entre escenas ·
+          <strong>3</strong> Intervenciones en tiempo real
+        </div>
+      </div>
+
+      <div class="atributo-block">
+        <div class="atrib-header">
+          <div class="atrib-name">Calidad</div>
+          <div class="atrib-value" id="vCAL">1</div>
+        </div>
+        <div class="atrib-dots" data-attr="CAL" data-max="3" data-init="1"></div>
+        <div class="atrib-desc">Recursos médicos, técnicos y de información disponibles.</div>
+        <div class="atrib-efecto">
+          <strong>1</strong> Básico, sin especialistas ·
+          <strong>2</strong> Recuperación de Heridas 1×/sesión sin tirada ·
+          <strong>3</strong> Tratamiento de Hierro Frío disponible
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- MEJORAS Y DRAMA -->
+  <div style="display:flex;flex-direction:column;gap:16px;">
+
+    <div class="panel">
+      <div class="panel-title">Drama grupal</div>
+      <div class="drama-row">
+        <span class="drama-label">Drama</span>
+        <div class="drama-dots" id="dramaDots"></div>
+      </div>
+      <div class="drama-nota" style="margin-top:10px;">Gastar 1 Drama grupal + narración = +1 a cualquier atributo del Refugio (máx. 3)</div>
+    </div>
+
+    <div class="panel">
+      <div class="panel-title">Mejoras registradas</div>
+      <div class="mejoras-list">
+        <div class="mejora-row">
+          <div class="mejora-check" onclick="this.classList.toggle('done')"></div>
+          <span class="mejora-texto">Seguridad 1 → 2: sellaron la entrada norte</span>
+          <span class="mejora-coste">1 Drama</span>
+        </div>
+        <div class="mejora-row">
+          <div class="mejora-check" onclick="this.classList.toggle('done')"></div>
+          <span class="mejora-texto">Alcance 2 → 3: red de señales en los canales</span>
+          <span class="mejora-coste">1 Drama</span>
+        </div>
+        <div class="mejora-row">
+          <div class="mejora-check" onclick="this.classList.toggle('done')"></div>
+          <span class="mejora-texto">Calidad 1 → 2: médico de los Rotos les visita</span>
+          <span class="mejora-coste">1 Drama</span>
+        </div>
+        <div class="mejora-row">
+          <div class="mejora-check" onclick="this.classList.toggle('done')"></div>
+          <span class="mejora-texto">Discreción 1 → 2: entradas secundarias camufladas</span>
+          <span class="mejora-coste">1 Drama</span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- CONSECUENCIAS PARCIALES -->
+<div class="full-row">
+  <div class="panel">
+    <div class="panel-title">Consecuencias parciales · Referencia de mesa</div>
+    <div class="consec-ref">
+      <div class="consec-card exito">
+        <div class="consec-tipo">Éxito</div>
+        <span class="consec-rango">Supera la dificultad</span>
+        <div class="consec-desc">Ocurre exactamente lo que el jugador quería. Sin coste adicional.</div>
+      </div>
+      <div class="consec-card parcial">
+        <div class="consec-tipo">Éxito con coste</div>
+        <span class="consec-rango">1–3 por debajo</span>
+        <div class="consec-desc">Ocurre, pero algo sale mal también. El máster elige la consecuencia.</div>
+      </div>
+      <div class="consec-card info">
+        <div class="consec-tipo">Fallo con información</div>
+        <span class="consec-rango">4–6 por debajo</span>
+        <div class="consec-desc">No ocurre pero el personaje aprende algo útil para el próximo intento.</div>
+      </div>
+      <div class="consec-card fallo">
+        <div class="consec-tipo">Fallo con consecuencia</div>
+        <span class="consec-rango">7+ por debajo</span>
+        <div class="consec-desc">No ocurre y algo empeora activamente. El máster avanza un reloj.</div>
+      </div>
+    </div>
+    <div style="margin-top:10px; display:grid; grid-template-columns:1fr 1fr; gap:8px;">
+      <div style="padding:8px 10px; background:var(--bg3); border-left:3px solid var(--teal); font-size:11px; color:var(--ash-dim); line-height:1.5;">
+        <strong style="color:var(--teal);font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;">Crítico</strong> — 2 o 3 dieces en la misma tirada. Éxito + ventaja narrativa adicional definida por el jugador.
+      </div>
+      <div style="padding:8px 10px; background:var(--bg3); border-left:3px solid var(--red); font-size:11px; color:var(--ash-dim); line-height:1.5;">
+        <strong style="color:var(--red);font-family:'Raleway',sans-serif;font-size:9px;letter-spacing:1px;text-transform:uppercase;">Pifia</strong> — 2 o 3 unos en la misma tirada. Fallo + Resplandor Mercurial automático. Los Perros de Seda ganan éxito auto en rastreo.
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- NOTAS GRUPALES -->
+<div class="full-row">
+  <div class="panel">
+    <div class="panel-title">Notas grupales</div>
+    <div class="notas-grid">
+      <div class="nota-block">
+        <div class="nota-label">Información activa</div>
+        <textarea class="nota-area" placeholder="Lo que el grupo sabe ahora mismo sobre la Aguja..."></textarea>
+      </div>
+      <div class="nota-block">
+        <div class="nota-label">Misiones en curso</div>
+        <textarea class="nota-area" placeholder="Objetivos activos, plazos, pendientes..."></textarea>
+      </div>
+      <div class="nota-block">
+        <div class="nota-label">Contactos y aliados</div>
+        <textarea class="nota-area" placeholder="Nombres, favores pendientes, cómo contactarlos..."></textarea>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── ATRIBUTOS ──
+document.querySelectorAll('.atrib-dots').forEach(container => {
+  const attr = container.dataset.attr;
+  const max = parseInt(container.dataset.max);
+  const init = parseInt(container.dataset.init || 1);
+  container.dataset.current = init;
+
+  for (let i = 1; i <= max; i++) {
+    const d = document.createElement('div');
+    d.className = 'adot' + (i <= init ? ' filled' : '');
+    d.addEventListener('click', function() {
+      const current = parseInt(container.dataset.current);
+      const newVal = (current === i) ? i - 1 : i;
+      container.dataset.current = newVal;
+      container.querySelectorAll('.adot').forEach((dot, idx) => {
+        dot.classList.toggle('filled', idx < newVal);
+      });
+      document.getElementById('v' + attr).textContent = newVal;
+    });
+    container.appendChild(d);
+  }
+});
+
+// ── RELOJES ──
+function buildClock(svgId, segments, color, inverse) {
+  const svg = document.getElementById(svgId);
+  const cx = 60, cy = 60, r = 50, gap = 2;
+  let filled = inverse ? segments : 0;
+
+  function draw() {
+    // limpiar segmentos anteriores
+    svg.querySelectorAll('.seg').forEach(s => s.remove());
+    const anglePerSeg = (2 * Math.PI) / segments;
+    for (let i = 0; i < segments; i++) {
+      const startAngle = -Math.PI / 2 + i * anglePerSeg + (gap * Math.PI / 180);
+      const endAngle = -Math.PI / 2 + (i + 1) * anglePerSeg - (gap * Math.PI / 180);
+      const x1 = cx + r * Math.cos(startAngle);
+      const y1 = cy + r * Math.sin(startAngle);
+      const x2 = cx + r * Math.cos(endAngle);
+      const y2 = cy + r * Math.sin(endAngle);
+      const largeArc = anglePerSeg > Math.PI ? 1 : 0;
+
+      const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+      const d = `M${cx},${cy} L${x1},${y1} A${r},${r} 0 ${largeArc},1 ${x2},${y2} Z`;
+      path.setAttribute('d', d);
+      path.setAttribute('class', 'seg');
+
+      const isActive = inverse ? i >= filled : i < filled;
+      path.setAttribute('fill', isActive ? color : 'rgba(255,255,255,0.04)');
+      path.setAttribute('stroke', 'rgba(0,0,0,0.5)');
+      path.setAttribute('stroke-width', '1.5');
+
+      path.addEventListener('click', function() {
+        if (inverse) {
+          filled = (filled === i) ? i + 1 : i;
+        } else {
+          const newVal = (filled === i + 1) ? i : i + 1;
+          filled = newVal;
+        }
+        draw();
+      });
+
+      svg.appendChild(path);
+    }
+
+    // número central
+    let num = svg.querySelector('.clock-num');
+    if (!num) {
+      num = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+      num.setAttribute('class', 'clock-num');
+      num.setAttribute('x', '60');
+      num.setAttribute('y', '65');
+      num.setAttribute('text-anchor', 'middle');
+      num.setAttribute('font-family', 'Cinzel, serif');
+      num.setAttribute('font-size', '22');
+      num.setAttribute('fill', color);
+      svg.appendChild(num);
+    }
+    num.textContent = inverse ? (segments - filled) : filled;
+  }
+
+  draw();
+}
+
+buildClock('clockSospecha', 8, '#c05050', false);
+buildClock('clockOperacion', 6, '#c87828', false);
+buildClock('clockRefugio', 4, '#4a9e90', true); // empieza lleno
+
+// ── MIEMBROS ──
+const rolesEquipo = ['El Infiltrado', 'El Enlace', 'Operativo', 'Operativo', 'PNJ Aliado'];
+const miembrosGrid = document.getElementById('miembrosGrid');
+
+rolesEquipo.forEach((rol, idx) => {
+  const card = document.createElement('div');
+  card.className = 'miembro-card';
+
+  const avatarId = `mAvatar${idx}`;
+  const imgId = `mImg${idx}`;
+  const inputId = `mInput${idx}`;
+
+  card.innerHTML = `
+    <div class="miembro-avatar" id="${avatarId}" onclick="document.getElementById('${inputId}').click()">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1"><circle cx="12" cy="8" r="4"/><path d="M4 20c0-4 3.6-7 8-7s8 3 8 7"/></svg>
+      <img id="${imgId}" src="" alt="">
+    </div>
+    <input type="file" id="${inputId}" style="display:none" accept="image/*">
+    <input class="miembro-nombre" type="text" placeholder="Nombre">
+    <input class="miembro-rol" type="text" value="${rol}">
+    <div class="miembro-estado" data-idx="${idx}"></div>
+  `;
+
+  miembrosGrid.appendChild(card);
+
+  // dots éxtasis/distorsión mini
+  const estadoDiv = card.querySelector('.miembro-estado');
+  for (let i = 0; i < 5; i++) {
+    const d = document.createElement('div');
+    d.className = 'medot e';
+    d.title = 'Éxtasis';
+    d.addEventListener('click', function() {
+      const eDots = estadoDiv.querySelectorAll('.medot.e');
+      const filled = Array.from(eDots).filter(x => x.classList.contains('filled')).length;
+      const newVal = (filled === i + 1) ? i : i + 1;
+      eDots.forEach((dot, j) => dot.classList.toggle('filled', j < newVal));
+    });
+    estadoDiv.appendChild(d);
+  }
+
+  // imagen
+  document.getElementById(inputId).addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(ev) {
+      const img = document.getElementById(imgId);
+      img.src = ev.target.result;
+      img.classList.add('loaded');
+      document.getElementById(avatarId).querySelector('svg').style.display = 'none';
+    };
+    reader.readAsDataURL(file);
+  });
+});
+
+// ── DRAMA GRUPAL ──
+const dramaDots = document.getElementById('dramaDots');
+for (let i = 0; i < 5; i++) {
+  const d = document.createElement('div');
+  d.className = 'ddot';
+  d.addEventListener('click', function() {
+    const filled = dramaDots.querySelectorAll('.filled').length;
+    const newVal = (filled === i + 1) ? i : i + 1;
+    dramaDots.querySelectorAll('.ddot').forEach((dot, j) => dot.classList.toggle('filled', j < newVal));
+  });
+  dramaDots.appendChild(d);
+}
+</script>
+</body>
+</html>
