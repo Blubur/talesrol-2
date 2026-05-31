@@ -1,0 +1,1362 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ficha de Personaje · Cenizas Blancas</title>
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;500;600&family=EB+Garamond:ital,wght@0,400;0,500;1,400&family=Raleway:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+* { margin:0; padding:0; box-sizing:border-box; }
+
+:root {
+  --bg:        #0e0c0a;
+  --bg2:       #161210;
+  --bg3:       #1e1a15;
+  --bg4:       #262018;
+  --bg5:       #2e281e;
+  --gold:      #c8a96a;
+  --gold-dim:  #7a6438;
+  --gold-pale: #eddcb0;
+  --ash:       #e0dbd2;
+  --ash-dim:   #968e80;
+  --ash-dark:  #5a5248;
+  --red:       #8c2e2e;
+  --red-dim:   #5a1e1e;
+  --teal:      #4a9e90;
+  --teal-dim:  #2a5e54;
+  --amber:     #c87828;
+  --border:    rgba(200,169,106,0.18);
+  --border2:   rgba(200,169,106,0.35);
+  --glow:      rgba(200,169,106,0.06);
+}
+
+html { font-size: 13px; }
+
+body {
+  background: var(--bg);
+  color: var(--ash);
+  font-family: 'EB Garamond', Georgia, serif;
+  min-height: 100vh;
+  padding: 24px;
+}
+
+/* ── LAYOUT ── */
+.sheet {
+  max-width: 1280px;
+  margin: 0 auto;
+  display: grid;
+  grid-template-columns: 260px 1fr 220px;
+  grid-template-rows: auto auto 1fr auto;
+  gap: 12px;
+}
+
+/* ── HEADER ── */
+.header {
+  grid-column: 1 / -1;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--border2);
+}
+
+.header-title {
+  flex: 1;
+}
+
+.campaign-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 4px;
+}
+
+.campaign-title {
+  font-family: 'Cinzel', serif;
+  font-size: 22px;
+  color: var(--gold-pale);
+  letter-spacing: 2px;
+}
+
+.header-ornament {
+  color: var(--gold-dim);
+  font-size: 11px;
+  letter-spacing: 6px;
+}
+
+/* ── PANELS ── */
+.panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  padding: 14px;
+  position: relative;
+}
+
+.panel-title {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  font-weight: 600;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.panel-title::before {
+  content: '';
+  display: inline-block;
+  width: 5px; height: 5px;
+  background: var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+}
+
+/* ── COLUMNA IZQUIERDA ── */
+.col-left {
+  grid-column: 1;
+  grid-row: 2 / 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Imagen + face claim */
+.image-panel {
+  background: var(--bg2);
+  border: 1px solid var(--border);
+  overflow: hidden;
+}
+
+.image-upload-zone {
+  width: 100%;
+  aspect-ratio: 3/4;
+  background: var(--bg3);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  transition: background 0.2s;
+}
+
+.image-upload-zone:hover { background: var(--bg4); }
+
+.image-upload-zone img {
+  position: absolute;
+  inset: 0;
+  width: 100%; height: 100%;
+  object-fit: cover;
+  display: none;
+}
+
+.image-upload-zone img.loaded { display: block; }
+
+.image-placeholder {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  color: var(--ash-dark);
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  pointer-events: none;
+}
+
+.image-placeholder svg { opacity: 0.3; }
+.image-input { display: none; }
+
+.face-claim-row {
+  padding: 10px 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.fc-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.fc-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  padding: 3px 0;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.fc-input:focus { border-color: var(--gold-dim); }
+.fc-input::placeholder { color: var(--ash-dark); font-style: italic; }
+
+/* Datos básicos */
+.datos-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.dato-field { display: flex; flex-direction: column; gap: 3px; }
+.dato-field.full { grid-column: 1 / -1; }
+
+.dato-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.dato-input {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  padding: 3px 0;
+  outline: none;
+  transition: border-color 0.2s;
+  width: 100%;
+}
+.dato-input:focus { border-color: var(--gold-dim); }
+.dato-input::placeholder { color: var(--ash-dark); font-style: italic; }
+
+/* Rol badge */
+.rol-selector {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 4px;
+}
+
+.rol-option {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 6px 10px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: all 0.2s;
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+}
+
+.rol-option:hover { border-color: var(--gold-dim); color: var(--ash); }
+.rol-option.active { border-color: var(--gold); background: rgba(200,169,106,0.08); color: var(--gold-pale); }
+.rol-option.active::before { background: var(--gold); }
+
+.rol-option::before {
+  content: '';
+  width: 5px; height: 5px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  flex-shrink: 0;
+  transition: background 0.2s;
+}
+
+/* Historia */
+.historia-area {
+  background: none;
+  border: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  line-height: 1.7;
+  padding: 10px;
+  width: 100%;
+  resize: vertical;
+  min-height: 80px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+.historia-area:focus { border-color: var(--gold-dim); }
+.historia-area::placeholder { color: var(--ash-dark); font-style: italic; }
+
+/* ── COLUMNA CENTRAL ── */
+.col-center {
+  grid-column: 2;
+  grid-row: 2 / 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Características */
+.caract-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 8px;
+}
+
+.caract-box {
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  padding: 10px 8px;
+  text-align: center;
+  position: relative;
+  transition: border-color 0.2s;
+}
+.caract-box:hover { border-color: var(--gold-dim); }
+
+.caract-name {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  margin-bottom: 6px;
+}
+
+.caract-value {
+  font-family: 'Cinzel', serif;
+  font-size: 28px;
+  color: var(--gold-pale);
+  line-height: 1;
+  background: none;
+  border: none;
+  width: 100%;
+  text-align: center;
+  outline: none;
+  cursor: default;
+}
+
+.caract-dots {
+  display: flex;
+  justify-content: center;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.dot {
+  width: 8px; height: 8px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.dot.filled { background: var(--gold); border-color: var(--gold); }
+
+/* Habilidades */
+.habilidades-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 6px;
+}
+
+.hab-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  transition: border-color 0.15s;
+}
+.hab-row:hover { border-color: var(--gold-dim); }
+
+.hab-name {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+  flex: 1;
+}
+
+.hab-dots {
+  display: flex;
+  gap: 3px;
+}
+
+.hdot {
+  width: 7px; height: 7px;
+  border: 1px solid var(--ash-dark);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: background 0.15s, border-color 0.15s;
+}
+.hdot.filled { background: var(--gold); border-color: var(--gold); }
+
+/* Hitos */
+.hitos-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.hito-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: center;
+  gap: 8px;
+  padding: 7px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+}
+
+.hito-tipo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 7px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+  white-space: nowrap;
+}
+
+.hito-texto {
+  background: none;
+  border: none;
+  border-bottom: 1px solid transparent;
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  outline: none;
+  width: 100%;
+  transition: border-color 0.2s;
+}
+.hito-texto:focus { border-color: var(--border); }
+.hito-texto::placeholder { color: var(--ash-dark); font-style: italic; }
+
+.hito-usado {
+  width: 14px; height: 14px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: background 0.15s;
+  flex-shrink: 0;
+}
+.hito-usado.checked { background: var(--gold-dim); }
+
+/* Drama */
+.drama-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-top: 4px;
+}
+
+.drama-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.drama-dots {
+  display: flex;
+  gap: 6px;
+}
+
+.ddot {
+  width: 14px; height: 14px;
+  border: 1px solid var(--gold-dim);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.ddot.filled { background: var(--gold); border-color: var(--gold); box-shadow: 0 0 6px rgba(200,169,106,0.4); }
+
+/* Éxtasis y Distorsión */
+.extasis-section {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.meter-block { display: flex; flex-direction: column; gap: 6px; }
+
+.meter-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.meter-track {
+  display: flex;
+  gap: 4px;
+  flex-wrap: wrap;
+}
+
+.mdot {
+  width: 16px; height: 16px;
+  border: 1px solid var(--ash-dark);
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.mdot.extasis.filled { background: var(--teal); border-color: var(--teal); box-shadow: 0 0 5px rgba(74,158,144,0.3); }
+.mdot.distorsion.filled { background: var(--red); border-color: var(--red); box-shadow: 0 0 5px rgba(140,46,46,0.4); }
+
+.meter-nota {
+  font-size: 11px;
+  color: var(--ash-dark);
+  font-style: italic;
+  line-height: 1.4;
+}
+
+/* Consecuencias parciales */
+.consec-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 12px;
+}
+
+.consec-table tr { border-bottom: 1px solid var(--border); }
+.consec-table tr:last-child { border-bottom: none; }
+
+.consec-table td {
+  padding: 5px 8px;
+  vertical-align: middle;
+  color: var(--ash-dim);
+}
+
+.consec-table td:first-child {
+  font-family: 'Cinzel', serif;
+  font-size: 11px;
+  color: var(--gold);
+  white-space: nowrap;
+  padding-right: 12px;
+}
+
+.consec-table tr.exito td:first-child { color: var(--teal); }
+.consec-table tr.parcial td:first-child { color: var(--amber); }
+.consec-table tr.info td:first-child { color: var(--gold-dim); }
+.consec-table tr.fallo td:first-child { color: var(--red); }
+
+/* ── COLUMNA DERECHA ── */
+.col-right {
+  grid-column: 3;
+  grid-row: 2 / 5;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+/* Lazos */
+.lazo-item {
+  padding: 8px 10px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  margin-bottom: 6px;
+  position: relative;
+}
+
+.lazo-item:last-child { margin-bottom: 0; }
+
+.lazo-tipo-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 4px;
+}
+
+.lazo-tipo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 7px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold-dim);
+}
+
+.lazo-nombre {
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--border);
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+  padding: 2px 0;
+  transition: border-color 0.2s;
+}
+.lazo-nombre:focus { border-color: var(--gold-dim); }
+.lazo-nombre::placeholder { color: var(--ash-dark); font-style: italic; }
+
+.lazo-estado {
+  display: flex;
+  gap: 4px;
+  margin-top: 6px;
+}
+
+.lazo-dot {
+  width: 8px; height: 8px;
+  transform: rotate(45deg);
+  cursor: pointer;
+  transition: all 0.15s;
+  flex-shrink: 0;
+}
+.lazo-dot { border: 1px solid var(--ash-dark); }
+.lazo-dot.d1.filled { background: var(--gold-dim); border-color: var(--gold-dim); }
+.lazo-dot.d2.filled { background: var(--amber); border-color: var(--amber); }
+.lazo-dot.d3.filled { background: var(--red); border-color: var(--red); }
+
+.lazo-estado-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 7px;
+  letter-spacing: 1px;
+  color: var(--ash-dark);
+  margin-top: 4px;
+}
+
+/* Heridas */
+.heridas-section { display: flex; flex-direction: column; gap: 8px; }
+
+.herida-tipo {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.herida-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+}
+
+.herida-track {
+  display: flex;
+  gap: 4px;
+}
+
+.wdot {
+  flex: 1;
+  height: 12px;
+  border: 1px solid var(--border);
+  cursor: pointer;
+  transition: background 0.15s;
+}
+.wdot.leve.filled { background: var(--teal-dim); border-color: var(--teal); }
+.wdot.grave.filled { background: var(--red-dim); border-color: var(--red); }
+
+.herida-efecto {
+  font-size: 10px;
+  color: var(--ash-dark);
+  font-style: italic;
+  padding: 4px 6px;
+  border-left: 2px solid var(--border);
+  line-height: 1.4;
+}
+
+/* Dominio de Lazos */
+.dl-nivel {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding: 7px 8px;
+  background: var(--bg3);
+  border: 1px solid var(--border);
+  margin-bottom: 5px;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+.dl-nivel:last-child { margin-bottom: 0; }
+.dl-nivel.active { border-color: var(--amber); background: rgba(200,120,40,0.08); }
+.dl-nivel.active .dl-n { color: var(--amber); }
+
+.dl-n {
+  font-family: 'Cinzel', serif;
+  font-size: 14px;
+  color: var(--gold-dim);
+  line-height: 1;
+  flex-shrink: 0;
+  width: 16px;
+  text-align: center;
+  margin-top: 1px;
+}
+
+.dl-texto {
+  font-size: 11px;
+  color: var(--ash-dim);
+  line-height: 1.5;
+}
+
+.dl-titulo {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: var(--ash-dim);
+  display: block;
+  margin-bottom: 2px;
+}
+.dl-nivel.active .dl-titulo { color: var(--amber); }
+
+/* Otros datos */
+.otros-list {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.otro-row {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  background: var(--bg3);
+  padding: 5px 8px;
+  border: 1px solid var(--border);
+}
+
+.otro-key {
+  background: none;
+  border: none;
+  color: var(--gold-dim);
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  width: 70px;
+  outline: none;
+  flex-shrink: 0;
+}
+.otro-key::placeholder { color: var(--ash-dark); }
+
+.otro-sep { color: var(--border2); font-size: 10px; flex-shrink: 0; }
+
+.otro-val {
+  background: none;
+  border: none;
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-size: 13px;
+  flex: 1;
+  outline: none;
+}
+.otro-val::placeholder { color: var(--ash-dark); font-style: italic; }
+
+.otro-del {
+  background: none;
+  border: none;
+  color: var(--ash-dark);
+  cursor: pointer;
+  font-size: 14px;
+  line-height: 1;
+  padding: 0 2px;
+  transition: color 0.15s;
+  flex-shrink: 0;
+}
+.otro-del:hover { color: var(--red); }
+
+.add-btn {
+  background: none;
+  border: 1px dashed var(--border);
+  color: var(--ash-dark);
+  font-family: 'Raleway', sans-serif;
+  font-size: 9px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  padding: 6px;
+  width: 100%;
+  cursor: pointer;
+  transition: all 0.15s;
+  margin-top: 4px;
+}
+.add-btn:hover { border-color: var(--gold-dim); color: var(--gold-dim); }
+
+/* Línea roja */
+.linea-roja-field {
+  background: rgba(90,30,30,0.2);
+  border: 1px solid rgba(140,46,46,0.3);
+  padding: 10px;
+}
+
+.lr-label {
+  font-family: 'Raleway', sans-serif;
+  font-size: 8px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--red);
+  margin-bottom: 6px;
+  opacity: 0.8;
+}
+
+.lr-input {
+  background: none;
+  border: none;
+  color: var(--ash);
+  font-family: 'EB Garamond', serif;
+  font-style: italic;
+  font-size: 13px;
+  width: 100%;
+  outline: none;
+  line-height: 1.6;
+  resize: none;
+  min-height: 44px;
+}
+.lr-input::placeholder { color: rgba(200,140,130,0.4); }
+
+/* scrollbar */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--bg5); border-radius: 2px; }
+
+/* responsive mínimo */
+@media (max-width: 900px) {
+  .sheet { grid-template-columns: 1fr 1fr; }
+  .header { grid-column: 1 / -1; }
+  .col-left { grid-column: 1; grid-row: 2; }
+  .col-center { grid-column: 1 / -1; grid-row: 3; }
+  .col-right { grid-column: 2; grid-row: 2; }
+}
+</style>
+</head>
+<body>
+
+<div class="sheet">
+
+  <!-- HEADER -->
+  <div class="header">
+    <div class="header-title">
+      <div class="campaign-label">Cenizas Blancas · El Doble Agente</div>
+      <div class="campaign-title">Ficha de Personaje</div>
+    </div>
+    <div class="header-ornament">✦ HITOS 2.0 ✦</div>
+  </div>
+
+  <!-- COLUMNA IZQUIERDA -->
+  <div class="col-left">
+
+    <!-- Imagen -->
+    <div class="image-panel">
+      <div class="image-upload-zone" id="dropzone" onclick="document.getElementById('imgInput').click()">
+        <div class="image-placeholder">
+          <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1">
+            <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/>
+            <polyline points="21 15 16 10 5 21"/>
+          </svg>
+          <span>Subir imagen</span>
+        </div>
+        <img id="charImg" src="" alt="Personaje">
+      </div>
+      <input type="file" id="imgInput" class="image-input" accept="image/*">
+      <div class="face-claim-row">
+        <div class="fc-label">Face Claim</div>
+        <input class="fc-input" type="text" placeholder="Nombre del actor / referencia visual">
+      </div>
+    </div>
+
+    <!-- Datos básicos -->
+    <div class="panel">
+      <div class="panel-title">Datos del personaje</div>
+      <div class="datos-grid">
+        <div class="dato-field full">
+          <div class="dato-label">Nombre</div>
+          <input class="dato-input" type="text" placeholder="Nombre verdadero">
+        </div>
+        <div class="dato-field full">
+          <div class="dato-label">Nombre de cobertura</div>
+          <input class="dato-input" type="text" placeholder="Identidad en Candor">
+        </div>
+        <div class="dato-field">
+          <div class="dato-label">Edad</div>
+          <input class="dato-input" type="text" placeholder="—">
+        </div>
+        <div class="dato-field">
+          <div class="dato-label">Origen celestial</div>
+          <input class="dato-input" type="text" placeholder="Trono / Virtud / Principado">
+        </div>
+        <div class="dato-field full">
+          <div class="dato-label">Rol en la operación</div>
+          <div class="rol-selector">
+            <div class="rol-option" onclick="selectRol(this)">El Infiltrado</div>
+            <div class="rol-option" onclick="selectRol(this)">El Enlace</div>
+            <div class="rol-option" onclick="selectRol(this)">Operativo</div>
+            <div class="rol-option" onclick="selectRol(this)">PNJ Aliado</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historia -->
+    <div class="panel">
+      <div class="panel-title">Historia del personaje</div>
+      <textarea class="historia-area" placeholder="Origen, motivación, por qué está en esta misión..."></textarea>
+    </div>
+
+    <!-- Línea roja -->
+    <div class="linea-roja-field">
+      <div class="lr-label">⬡ Línea roja</div>
+      <textarea class="lr-input" placeholder="Lo que este Serafín jamás haría..."></textarea>
+    </div>
+
+    <!-- Otros datos -->
+    <div class="panel">
+      <div class="panel-title">Otros datos</div>
+      <div class="otros-list" id="otrosList"></div>
+      <button class="add-btn" onclick="addOtro()">+ Añadir campo</button>
+    </div>
+
+  </div>
+
+  <!-- COLUMNA CENTRAL -->
+  <div class="col-center">
+
+    <!-- Características -->
+    <div class="panel">
+      <div class="panel-title">Características</div>
+      <div class="caract-grid">
+        <div class="caract-box">
+          <div class="caract-name">Fortaleza</div>
+          <div class="caract-value" id="cFOR">0</div>
+          <div class="caract-dots" data-char="FOR" data-max="5"></div>
+        </div>
+        <div class="caract-box">
+          <div class="caract-name">Reflejos</div>
+          <div class="caract-value" id="cREF">0</div>
+          <div class="caract-dots" data-char="REF" data-max="5"></div>
+        </div>
+        <div class="caract-box">
+          <div class="caract-name">Voluntad</div>
+          <div class="caract-value" id="cVOL">0</div>
+          <div class="caract-dots" data-char="VOL" data-max="5"></div>
+        </div>
+        <div class="caract-box">
+          <div class="caract-name">Intelecto</div>
+          <div class="caract-value" id="cINT">0</div>
+          <div class="caract-dots" data-char="INT" data-max="5"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Habilidades -->
+    <div class="panel">
+      <div class="panel-title">Habilidades</div>
+      <div class="habilidades-grid">
+        <div class="hab-row"><span class="hab-name">Atletismo</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Combate</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Percepción</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Sigilo</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Engaño</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Persuasión</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Conocimiento</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Medicina</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Ocultismo</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Táctica</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Velo de Alabastro</span><div class="hab-dots" data-max="5"></div></div>
+        <div class="hab-row"><span class="hab-name">Canalizar Gracia</span><div class="hab-dots" data-max="5"></div></div>
+      </div>
+    </div>
+
+    <!-- Hitos y Drama -->
+    <div class="panel">
+      <div class="panel-title">Hitos</div>
+      <div class="hitos-list">
+        <div class="hito-row">
+          <span class="hito-tipo">Origen</span>
+          <input class="hito-texto" type="text" placeholder="Función antes de la Caída...">
+          <div class="hito-usado" title="Usado esta sesión" onclick="this.classList.toggle('checked')"></div>
+        </div>
+        <div class="hito-row">
+          <span class="hito-tipo">Discordia</span>
+          <input class="hito-texto" type="text" placeholder="Qué hiciste durante la Gran Discordia...">
+          <div class="hito-usado" title="Usado esta sesión" onclick="this.classList.toggle('checked')"></div>
+        </div>
+        <div class="hito-row">
+          <span class="hito-tipo">Estancia</span>
+          <input class="hito-texto" type="text" placeholder="Evento en Candor que te marcó...">
+          <div class="hito-usado" title="Usado esta sesión" onclick="this.classList.toggle('checked')"></div>
+        </div>
+        <div class="hito-row">
+          <span class="hito-tipo">Libre</span>
+          <input class="hito-texto" type="text" placeholder="Hito adicional...">
+          <div class="hito-usado" title="Usado esta sesión" onclick="this.classList.toggle('checked')"></div>
+        </div>
+      </div>
+      <div class="drama-row" style="margin-top:12px;">
+        <span class="drama-label">Drama</span>
+        <div class="drama-dots" id="dramaDots"></div>
+      </div>
+    </div>
+
+    <!-- Éxtasis y Distorsión -->
+    <div class="panel">
+      <div class="panel-title">Éxtasis y Distorsión</div>
+      <div class="extasis-section">
+        <div class="meter-block">
+          <div class="meter-label">Éxtasis</div>
+          <div class="meter-track" id="extasisTrack"></div>
+          <div class="meter-nota">Rec. con Lazo: 1 rol + Dado C &gt;5<br>Otras rel.: 2 roles + Dado C &gt;8</div>
+        </div>
+        <div class="meter-block">
+          <div class="meter-label">Distorsión</div>
+          <div class="meter-track" id="distorsionTrack"></div>
+          <div class="meter-nota">Cada punto: −1 Interacción Social / +1 Poder Celestial. Ruptura en 5.</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Consecuencias parciales -->
+    <div class="panel">
+      <div class="panel-title">Consecuencias parciales · Referencia</div>
+      <table class="consec-table">
+        <tr class="exito">
+          <td>Éxito</td>
+          <td>Supera la dificultad. Ocurre exactamente lo que el jugador quería.</td>
+        </tr>
+        <tr class="parcial">
+          <td>1–3 bajo</td>
+          <td>Éxito con coste. Ocurre, pero algo sale mal también. El máster elige qué.</td>
+        </tr>
+        <tr class="info">
+          <td>4–6 bajo</td>
+          <td>Fallo con información. No ocurre pero el personaje aprende algo útil para intentarlo de nuevo.</td>
+        </tr>
+        <tr class="fallo">
+          <td>7+ bajo</td>
+          <td>Fallo con consecuencia. No ocurre y algo empeora activamente. El máster avanza un reloj.</td>
+        </tr>
+      </table>
+      <div style="margin-top:8px; font-size:11px; color:var(--ash-dark); font-style:italic; border-left: 2px solid var(--border); padding-left:8px; line-height:1.5;">
+        Crítico (2–3 dieces): ventaja narrativa adicional. El jugador la define.<br>
+        Pifia (2–3 unos): fallo + Resplandor Mercurial automático.
+      </div>
+    </div>
+
+  </div>
+
+  <!-- COLUMNA DERECHA -->
+  <div class="col-right">
+
+    <!-- Lazos -->
+    <div class="panel">
+      <div class="panel-title">Lazos</div>
+
+      <div class="lazo-item">
+        <div class="lazo-tipo-row">
+          <span class="lazo-tipo">Protección · Humano</span>
+        </div>
+        <input class="lazo-nombre" type="text" placeholder="Nombre del vínculo...">
+        <div class="lazo-estado">
+          <div class="lazo-dot d1" title="Distancia" onclick="toggleLazoDot(this, 1)"></div>
+          <div class="lazo-dot d2" title="Herida" onclick="toggleLazoDot(this, 2)"></div>
+          <div class="lazo-dot d3" title="Ruptura" onclick="toggleLazoDot(this, 3)"></div>
+          <span style="font-family:'Raleway',sans-serif;font-size:8px;color:var(--ash-dark);letter-spacing:1px;margin-left:4px;">Dominio</span>
+        </div>
+      </div>
+
+      <div class="lazo-item">
+        <div class="lazo-tipo-row">
+          <span class="lazo-tipo">Protección · Humano</span>
+        </div>
+        <input class="lazo-nombre" type="text" placeholder="Nombre del vínculo...">
+        <div class="lazo-estado">
+          <div class="lazo-dot d1" onclick="toggleLazoDot(this, 1)"></div>
+          <div class="lazo-dot d2" onclick="toggleLazoDot(this, 2)"></div>
+          <div class="lazo-dot d3" onclick="toggleLazoDot(this, 3)"></div>
+          <span style="font-family:'Raleway',sans-serif;font-size:8px;color:var(--ash-dark);letter-spacing:1px;margin-left:4px;">Dominio</span>
+        </div>
+      </div>
+
+      <div class="lazo-item">
+        <div class="lazo-tipo-row">
+          <span class="lazo-tipo">Ideal</span>
+        </div>
+        <input class="lazo-nombre" type="text" placeholder="Concepto o valor...">
+        <div class="lazo-estado">
+          <div class="lazo-dot d1" onclick="toggleLazoDot(this, 1)"></div>
+          <div class="lazo-dot d2" onclick="toggleLazoDot(this, 2)"></div>
+          <div class="lazo-dot d3" onclick="toggleLazoDot(this, 3)"></div>
+          <span style="font-family:'Raleway',sans-serif;font-size:8px;color:var(--ash-dark);letter-spacing:1px;margin-left:4px;">Dominio</span>
+        </div>
+      </div>
+
+      <div class="lazo-item">
+        <div class="lazo-tipo-row">
+          <span class="lazo-tipo">Grupo</span>
+        </div>
+        <input class="lazo-nombre" type="text" placeholder="Personaje del equipo...">
+        <div class="lazo-estado">
+          <div class="lazo-dot d1" onclick="toggleLazoDot(this, 1)"></div>
+          <div class="lazo-dot d2" onclick="toggleLazoDot(this, 2)"></div>
+          <div class="lazo-dot d3" onclick="toggleLazoDot(this, 3)"></div>
+          <span style="font-family:'Raleway',sans-serif;font-size:8px;color:var(--ash-dark);letter-spacing:1px;margin-left:4px;">Dominio</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Dominio de Lazos -->
+    <div class="panel">
+      <div class="panel-title">Dominio de Lazos · Spire</div>
+      <div class="dl-nivel" onclick="setDL(this, 1)">
+        <div class="dl-n">1</div>
+        <div class="dl-texto">
+          <span class="dl-titulo">Distancia</span>
+          No puede recuperar Éxtasis de este Lazo hasta escena de reconexión.
+        </div>
+      </div>
+      <div class="dl-nivel" onclick="setDL(this, 2)">
+        <div class="dl-n">2</div>
+        <div class="dl-texto">
+          <span class="dl-titulo">Herida</span>
+          El Lazo nota que algo va mal. Sus acciones se vuelven impredecibles.
+        </div>
+      </div>
+      <div class="dl-nivel" onclick="setDL(this, 3)">
+        <div class="dl-n">3</div>
+        <div class="dl-texto">
+          <span class="dl-titulo">Ruptura</span>
+          El Lazo se pierde o actúa contra el personaje. Recuperable con trabajo narrativo activo.
+        </div>
+      </div>
+    </div>
+
+    <!-- Heridas -->
+    <div class="panel">
+      <div class="panel-title">Heridas</div>
+      <div class="heridas-section">
+        <div class="herida-tipo">
+          <div class="herida-label">Físicas leves</div>
+          <div class="herida-track" id="heridaFisicaLeve"></div>
+        </div>
+        <div class="herida-tipo" style="margin-top:6px;">
+          <div class="herida-label">Físicas graves</div>
+          <div class="herida-track" id="heridaFisicaGrave"></div>
+          <div class="herida-efecto">−3 Reflejos · Prohíbe Forma de Éxtasis</div>
+        </div>
+        <div class="herida-tipo" style="margin-top:6px;">
+          <div class="herida-label">Mentales</div>
+          <div class="herida-track" id="heridaMental"></div>
+          <div class="herida-efecto">Trauma — Shock: sin Drama, Voluntad usa Dado m</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estados críticos -->
+    <div class="panel">
+      <div class="panel-title">Estados críticos</div>
+      <div style="display:flex;flex-direction:column;gap:5px;">
+        <div class="dl-nivel" onclick="this.classList.toggle('active')" style="border-color:rgba(140,46,46,0.3)">
+          <div class="dl-n" style="color:var(--red)">!</div>
+          <div class="dl-texto">
+            <span class="dl-titulo" style="color:var(--ash-dim)">La Agonía</span>
+            2ª Herida Grave. 3 turnos para estabilizar (Dif 18) o muerte.
+          </div>
+        </div>
+        <div class="dl-nivel" onclick="this.classList.toggle('active')" style="border-color:rgba(140,46,46,0.3)">
+          <div class="dl-n" style="color:var(--amber)">✦</div>
+          <div class="dl-texto">
+            <span class="dl-titulo" style="color:var(--ash-dim)">Resplandor Mercurial</span>
+            Brillo descontrolado. Perros de Seda: éxito auto en rastreo.
+          </div>
+        </div>
+        <div class="dl-nivel" onclick="this.classList.toggle('active')" style="border-color:rgba(140,46,46,0.3)">
+          <div class="dl-n" style="color:var(--teal)">◈</div>
+          <div class="dl-texto">
+            <span class="dl-titulo" style="color:var(--ash-dim)">Atonía · Éxtasis 0</span>
+            Sin milagros. Piel gris. Vulnerable a recolección.
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+// ── IMAGEN ──
+document.getElementById('imgInput').addEventListener('change', function(e) {
+  const file = e.target.files[0];
+  if (!file) return;
+  const reader = new FileReader();
+  reader.onload = function(ev) {
+    const img = document.getElementById('charImg');
+    img.src = ev.target.result;
+    img.classList.add('loaded');
+    document.querySelector('.image-placeholder').style.display = 'none';
+  };
+  reader.readAsDataURL(file);
+});
+
+// ── ROL ──
+function selectRol(el) {
+  document.querySelectorAll('.rol-option').forEach(r => r.classList.remove('active'));
+  el.classList.add('active');
+}
+
+// ── DOTS GENÉRICOS (características) ──
+document.querySelectorAll('.caract-dots').forEach(container => {
+  const char = container.dataset.char;
+  const max = parseInt(container.dataset.max);
+  for (let i = 1; i <= max; i++) {
+    const d = document.createElement('div');
+    d.className = 'dot';
+    d.dataset.val = i;
+    d.addEventListener('click', function() {
+      const current = parseInt(container.dataset.current || 0);
+      const newVal = (current === i) ? i - 1 : i;
+      container.dataset.current = newVal;
+      container.querySelectorAll('.dot').forEach((dot, idx) => {
+        dot.classList.toggle('filled', idx < newVal);
+      });
+      document.getElementById('c' + char).textContent = newVal;
+    });
+    container.appendChild(d);
+  }
+});
+
+// ── HABILIDADES DOTS ──
+document.querySelectorAll('.hab-dots').forEach(container => {
+  const max = parseInt(container.dataset.max);
+  for (let i = 1; i <= max; i++) {
+    const d = document.createElement('div');
+    d.className = 'hdot';
+    d.dataset.val = i;
+    d.addEventListener('click', function() {
+      const current = parseInt(container.dataset.current || 0);
+      const newVal = (current === i) ? i - 1 : i;
+      container.dataset.current = newVal;
+      container.querySelectorAll('.hdot').forEach((dot, idx) => {
+        dot.classList.toggle('filled', idx < newVal);
+      });
+    });
+    container.appendChild(d);
+  }
+});
+
+// ── DRAMA ──
+const dramaDots = document.getElementById('dramaDots');
+for (let i = 0; i < 5; i++) {
+  const d = document.createElement('div');
+  d.className = 'ddot';
+  d.addEventListener('click', function() {
+    const filled = dramaDots.querySelectorAll('.filled').length;
+    const idx = Array.from(dramaDots.children).indexOf(this);
+    const newVal = (filled === idx + 1) ? idx : idx + 1;
+    dramaDots.querySelectorAll('.ddot').forEach((dot, i) => {
+      dot.classList.toggle('filled', i < newVal);
+    });
+  });
+  dramaDots.appendChild(d);
+}
+
+// ── ÉXTASIS ──
+const extasisTrack = document.getElementById('extasisTrack');
+for (let i = 0; i < 10; i++) {
+  const d = document.createElement('div');
+  d.className = 'mdot extasis';
+  d.addEventListener('click', function() {
+    const filled = extasisTrack.querySelectorAll('.filled').length;
+    const idx = Array.from(extasisTrack.children).indexOf(this);
+    const newVal = (filled === idx + 1) ? idx : idx + 1;
+    extasisTrack.querySelectorAll('.mdot').forEach((dot, i) => {
+      dot.classList.toggle('filled', i < newVal);
+    });
+  });
+  extasisTrack.appendChild(d);
+}
+
+// ── DISTORSIÓN ──
+const distorsionTrack = document.getElementById('distorsionTrack');
+for (let i = 0; i < 5; i++) {
+  const d = document.createElement('div');
+  d.className = 'mdot distorsion';
+  d.addEventListener('click', function() {
+    const filled = distorsionTrack.querySelectorAll('.filled').length;
+    const idx = Array.from(distorsionTrack.children).indexOf(this);
+    const newVal = (filled === idx + 1) ? idx : idx + 1;
+    distorsionTrack.querySelectorAll('.mdot').forEach((dot, i) => {
+      dot.classList.toggle('filled', i < newVal);
+    });
+  });
+  distorsionTrack.appendChild(d);
+}
+
+// ── LAZO DOTS ──
+function toggleLazoDot(el, nivel) {
+  const parent = el.closest('.lazo-estado');
+  const dots = parent.querySelectorAll('.lazo-dot');
+  const wasActive = el.classList.contains('filled');
+  dots.forEach(d => d.classList.remove('filled'));
+  if (!wasActive) {
+    for (let i = 0; i < nivel; i++) dots[i].classList.add('filled');
+  }
+}
+
+// ── DOMINIO LAZOS ──
+function setDL(el, nivel) {
+  const all = document.querySelectorAll('.dl-nivel');
+  const wasActive = el.classList.contains('active');
+  all.forEach(n => n.classList.remove('active'));
+  if (!wasActive) el.classList.add('active');
+}
+
+// ── HERIDAS ──
+function buildHeridas(id, count, tipo) {
+  const track = document.getElementById(id);
+  for (let i = 0; i < count; i++) {
+    const d = document.createElement('div');
+    d.className = 'wdot ' + tipo;
+    d.addEventListener('click', function() {
+      const filled = track.querySelectorAll('.filled').length;
+      const idx = Array.from(track.children).indexOf(this);
+      const newVal = (filled === idx + 1) ? idx : idx + 1;
+      track.querySelectorAll('.wdot').forEach((dot, i) => {
+        dot.classList.toggle('filled', i < newVal);
+      });
+    });
+    track.appendChild(d);
+  }
+}
+buildHeridas('heridaFisicaLeve', 4, 'leve');
+buildHeridas('heridaFisicaGrave', 2, 'grave');
+buildHeridas('heridaMental', 3, 'leve');
+
+// ── OTROS DATOS ──
+function addOtro() {
+  const list = document.getElementById('otrosList');
+  const row = document.createElement('div');
+  row.className = 'otro-row';
+  row.innerHTML = `
+    <input class="otro-key" type="text" placeholder="Campo">
+    <span class="otro-sep">·</span>
+    <input class="otro-val" type="text" placeholder="Valor">
+    <button class="otro-del" onclick="this.closest('.otro-row').remove()">×</button>
+  `;
+  list.appendChild(row);
+}
+
+// Campos iniciales útiles
+['Facción', 'Grupo celestial', 'Cobertura (solidez)'].forEach(k => {
+  const list = document.getElementById('otrosList');
+  const row = document.createElement('div');
+  row.className = 'otro-row';
+  row.innerHTML = `
+    <input class="otro-key" type="text" value="${k}">
+    <span class="otro-sep">·</span>
+    <input class="otro-val" type="text" placeholder="—">
+    <button class="otro-del" onclick="this.closest('.otro-row').remove()">×</button>
+  `;
+  list.appendChild(row);
+});
+</script>
+</body>
+</html>
